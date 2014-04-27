@@ -95,6 +95,8 @@ void Configure::load()
     stepTotalHitMax = conf.value("step_total", stepTotalHitMax_Def).toInt();
     QVariant vfont = conf.value("browser_font", qApp->font());
     browserFont = vfont.value<QFont>();
+    QVariant afont = conf.value("application_font", qApp->font());
+    qApp->setFont(afont.value<QFont>());
 
     QSettings ssheets(CONF->settingOrg, "EpwingStyleSheet");
     dictSheet = ssheets.value("dictionary", dictStyleSheet).toString();
@@ -125,6 +127,7 @@ void Configure::save()
     conf.setValue("step_book", stepBookHitMax);
     conf.setValue("step_total", stepTotalHitMax);
     conf.setValue("browser_font", browserFont);
+    conf.setValue("application_font", qApp->font());
 
     QSettings ssheets(settingOrg, "EpwingStyleSheet");
     ssheets.setValue("dictionary", dictSheet);

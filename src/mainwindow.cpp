@@ -208,6 +208,10 @@ void MainWindow::createMenus()
                                tr("Set browser font..."),
                                this, SLOT(setViewFont()));
 
+    appFontAct = smenu->addAction(QIcon(":/images/font2.png"),
+                                  tr("Set application font..."),
+                                  this, SLOT(setAppFont()));
+
     QMenu *ms = smenu->addMenu(QIcon(":/images/stylesheet.png"),
                                tr("Edit style sheet"));
     sSheetAct = ms->menuAction();
@@ -1321,4 +1325,18 @@ void MainWindow::groupDockSlots()
 void MainWindow::setWebLoaded()
 {
     stopAct->setEnabled(false);
+}
+
+void MainWindow::setAppFont()
+{
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok, qApp->font(),
+                                      this, tr("Set Application Font"));
+
+    if (ok) {
+        qApp->setFont(font);
+        QString str = "font-family=" + font.family() +
+                      " font-size=" + QString().setNum(font.pointSize());
+        showStatus(str);
+    }
 }

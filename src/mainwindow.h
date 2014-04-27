@@ -74,6 +74,7 @@ private slots:
     void pasteSearchText(const QString&);
     void setBooks();
     void setBookFont(Book *book);
+    void setAppFont();
     void setViewFont();
     void setDictSheet();
     void setBookSheet();
@@ -162,6 +163,7 @@ private:
     QAction *configAct;
     QAction *sSheetAct;
     QAction *fontAct;
+    QAction *appFontAct;
     QAction *zoomInAct;
     QAction *zoomOutAct;
     QAction *viewAllAct;
