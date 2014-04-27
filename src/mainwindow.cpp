@@ -91,6 +91,8 @@ MainWindow::MainWindow(Model *model_, const QString &s_text)
     }
 
     sound = NULL;
+    timer = NULL;
+
     if (model->groupList[0]->bookList().count() == 0) {
         QTimer::singleShot(0, this, SLOT(setBooks()));
     } else if (!s_text.isEmpty()) {
@@ -1034,7 +1036,7 @@ void MainWindow::setDictSheet()
         CONF->dictSheet = dlg.text();
         showStatus("Stylesheet Changed");
     } else {
-        showStatus("Cancelled StyleSheel");
+        showStatus("Cancelled stylesheet");
     }
 }
 
@@ -1048,7 +1050,7 @@ void MainWindow::setBookSheet()
         CONF->bookSheet = dlg.text();
         showStatus("Stylesheet Changed");
     } else {
-        showStatus("Cancelled StyleSheel");
+        showStatus("Cancelled stylesheet");
     }
 }
 
@@ -1062,7 +1064,7 @@ void MainWindow::setStatusBarSheet()
         statusBar()->setStyleSheet(CONF->statusBarSheet);
         showStatus("Stylesheet Changed");
     } else {
-        showStatus("Cancelled StyleSheel");
+        showStatus("Cancelled stylesheet");
     }
 }
 
