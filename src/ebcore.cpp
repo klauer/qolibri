@@ -555,15 +555,11 @@ QByteArray EbCore::hookBeginColorJpeg(int, const unsigned int *argv)
 }
 QByteArray EbCore::hookBeginInColorBmp(int argc, const unsigned int *argv)
 {
-    QByteArray b = hookBeginColorBmp(argc, argv);
-
-    return '\n' + b;
+    return hookBeginColorBmp(argc, argv);
 }
 QByteArray EbCore::hookBeginInColorJpeg(int argc, const unsigned int *argv)
 {
-    QByteArray b = hookBeginColorJpeg(argc, argv);
-
-    return '\n' + b;
+    return hookBeginColorJpeg(argc, argv);
 }
 QByteArray EbCore::hookEndColorGraphic(int, const unsigned int*)
 {
@@ -571,7 +567,7 @@ QByteArray EbCore::hookEndColorGraphic(int, const unsigned int*)
 }
 QByteArray EbCore::hookEndInColorGraphic(int, const unsigned int*)
 {
-    return "</span>\n";
+    return "</span>";
 }
 QByteArray EbCore::hookBeginWave(int, const unsigned int *argv)
 {
@@ -581,7 +577,7 @@ QByteArray EbCore::hookBeginWave(int, const unsigned int *argv)
     // argv[5] : end offset
     QByteArray fname = binaryFname("wav", argv[2], argv[3]);
     QByteArray out = "<a class=snd href=\"sound?" +
-                     utfToEuc(ebCache.waveCachePath) + "\">";
+                     utfToEuc(ebCache.waveCachePath) + "/" + fname + "\">";
     if (ebCache.waveCacheList.contains(fname))
         return out;
 
@@ -614,11 +610,15 @@ QByteArray EbCore::hookBeginMpeg(int, const unsigned int*)
     return "<a class=mpg href=\"mpeg?<M" + numToBStr(mpegList.count()) +
            "M>\">";
 }
-QByteArray EbCore::hookEndMpeg(int, const unsigned int *argv)
+QByteArray EbCore::hookEndMpeg(int argc, const unsigned int *argv)
 {
+    if (argc < 3)
+        return errorBStr("Mpeg arg error");
+
     QString path = composeMoviePathName(argv+2);
+
     if (path.isEmpty())
-        return errorBStr("Image(mpeg) Error");
+        return errorBStr("Mpeg path error");
 
     QString fname = QFileInfo(path).fileName() + ".mpeg";
     QString dst_file = ebCache.mpegCachePath + '/' + fname;
